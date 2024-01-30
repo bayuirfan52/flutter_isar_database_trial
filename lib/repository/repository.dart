@@ -5,14 +5,13 @@ import 'package:isardb_trial/model/user_model.dart';
 import '../main.dart';
 
 class Repository {
-  Future<List<Data>> getUser() async {
+  Future<List<Data>> getUser({int page = 1}) async {
     final isar = getIt<Isar>();
 
     final dbData = await isar.datas.where().findAll();
     final data = <Data>[];
-
     if (dbData.isEmpty) {
-      final response = await DioHelper.getUser();
+      final response = await DioHelper.getUser(page: 2);
       if (response != null) {
         data.addAll(response);
         await isar.writeTxn(() {

@@ -11,15 +11,17 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   var isLoading = false;
+  var page = 1;
   final data = <Data>[];
   final _repository = Repository();
+  final scrollController = ScrollController();
 
-  Future<void> getUser() async {
+  Future<void> getUser(int page) async {
     data.clear();
     setState(() {
       isLoading = true;
     });
-    final response = await _repository.getUser();
+    final response = await _repository.getUser(page: page);
     setState(() {
       data.addAll(response);
       isLoading = false;
@@ -28,7 +30,16 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void initState() {
-    getUser();
+    getUser(page);
+    scrollController.addListener(() {
+      if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+        setState(() {
+          isLoading = true;
+          page += 1;
+          getUser(page);
+        });
+      }
+    });
     super.initState();
   }
 
@@ -46,10 +57,11 @@ class _MainPageState extends State<MainPage> {
         visible: isLoading,
         replacement: Scrollbar(
           child: RefreshIndicator(
-            onRefresh: () => getUser(),
+            onRefresh: () => getUser(1),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: ListView.separated(
+                controller: scrollController,
                 itemBuilder: (ctx, i) {
                   final item = data[i];
                   return Card(
