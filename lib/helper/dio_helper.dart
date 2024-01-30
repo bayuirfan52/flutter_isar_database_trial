@@ -10,7 +10,10 @@ mixin DioHelper {
   ));
 
   static Future<List<Data>?> getUser({int page = 1}) async {
-    final response = await _dio.get('api/users?page=$page');
+    final response = await _dio.get('api/users', queryParameters: {
+      'page': page,
+      'count': 10,
+    });
     final data = Users.fromJson(response.data);
     return data.data;
   }

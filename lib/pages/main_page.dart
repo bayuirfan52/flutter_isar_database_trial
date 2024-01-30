@@ -56,12 +56,12 @@ class _MainPageState extends State<MainPage> {
       body: Visibility(
         visible: isLoading,
         replacement: Scrollbar(
+          controller: scrollController,
           child: RefreshIndicator(
             onRefresh: () => getUser(1),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: ListView.separated(
-                controller: scrollController,
                 itemBuilder: (ctx, i) {
                   final item = data[i];
                   return Card(
