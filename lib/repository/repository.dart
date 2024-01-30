@@ -11,7 +11,7 @@ class Repository {
     final dbData = await isar.datas.where().findAll();
     final data = <Data>[];
     if (dbData.isEmpty) {
-      final response = await DioHelper.getUser(page: 2);
+      final response = await DioHelper.getUser(page: page);
       if (response != null) {
         data.addAll(response);
         await isar.writeTxn(() {

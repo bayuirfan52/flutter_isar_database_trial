@@ -66,15 +66,36 @@ class _MainPageState extends State<MainPage> {
                   final item = data[i];
                   return Card(
                     elevation: 0,
-                    color: Colors.blue.shade500,
+                    color: Colors.blue.shade400,
                     child: Container(
                       padding: const EdgeInsets.all(8),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            '${item.firstName} ${item.lastName}',
-                            style: const TextStyle(color: Colors.white),
+                          CircleAvatar(
+                            foregroundImage: NetworkImage(item.avatar ?? ''),
+                            radius: 36,
+                          ),
+                          const SizedBox(width: 16),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${item.firstName} ${item.lastName}',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              Text(
+                                '${item.email}',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 11,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),

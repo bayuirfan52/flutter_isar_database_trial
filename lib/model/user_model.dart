@@ -100,7 +100,6 @@ class Data {
   Map<String, dynamic> toJson() => _$DataToJson(this);
 }
 
-@Embedded()
 @JsonSerializable()
 class Support {
   @JsonKey(name: "url")
