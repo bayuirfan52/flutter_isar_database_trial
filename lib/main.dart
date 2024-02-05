@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:isar/isar.dart';
@@ -10,7 +11,11 @@ final getIt = GetIt.instance;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final dir = await getApplicationSupportDirectory();
-  final isar = await Isar.open([ObjectSchema], directory: dir.path);
+  final isar = await Isar.open(
+    [ObjectSchema],
+    directory: dir.path,
+    inspector: kDebugMode,
+  );
   getIt.registerSingleton<Isar>(isar);
   getIt.registerSingleton<AppRouter>(AppRouter());
   runApp(const MyApp());
