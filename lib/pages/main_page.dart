@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:isardb_trial/model/user_model.dart';
 import 'package:isardb_trial/repository/repository.dart';
+import 'package:isardb_trial/model/object_model.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -12,16 +12,16 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   var isLoading = false;
   var page = 1;
-  final data = <Data>[];
+  final data = <Object>[];
   final _repository = Repository();
   final scrollController = ScrollController();
 
-  Future<void> getUser(int page) async {
+  Future<void> getObject(int page) async {
     data.clear();
     setState(() {
       isLoading = true;
     });
-    final response = await _repository.getUser(page: page);
+    final response = await _repository.getObject(page: page);
     setState(() {
       data.addAll(response);
       isLoading = false;
@@ -30,13 +30,13 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void initState() {
-    getUser(page);
+    getObject(page);
     scrollController.addListener(() {
       if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
         setState(() {
           isLoading = true;
           page += 1;
-          getUser(page);
+          getObject(page);
         });
       }
     });
@@ -58,7 +58,7 @@ class _MainPageState extends State<MainPage> {
         replacement: Scrollbar(
           controller: scrollController,
           child: RefreshIndicator(
-            onRefresh: () => getUser(1),
+            onRefresh: () => getObject(1),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: ListView.separated(
@@ -72,8 +72,8 @@ class _MainPageState extends State<MainPage> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CircleAvatar(
-                            foregroundImage: NetworkImage(item.avatar ?? ''),
+                          const CircleAvatar(
+                            foregroundImage: NetworkImage('https://pbs.twimg.com/profile_images/1272593825223995397/RwW_1GMN_400x400.jpg'),
                             radius: 36,
                           ),
                           const SizedBox(width: 16),
@@ -81,7 +81,7 @@ class _MainPageState extends State<MainPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '${item.firstName} ${item.lastName}',
+                                '${item.name}',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -89,7 +89,7 @@ class _MainPageState extends State<MainPage> {
                                 ),
                               ),
                               Text(
-                                '${item.email}',
+                                item.data?.price ?? '',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 11,

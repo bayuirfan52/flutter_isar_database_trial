@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:isar/isar.dart';
-import 'package:isardb_trial/model/user_model.dart';
+import 'package:isardb_trial/model/object_model.dart';
 import 'package:isardb_trial/pages/main_page.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -10,7 +10,7 @@ final getIt = GetIt.instance;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final dir = await getApplicationSupportDirectory();
-  final isar = await Isar.open([DataSchema], directory: dir.path);
+  final isar = await Isar.open([ObjectSchema], directory: dir.path);
   getIt.registerSingleton<Isar>(isar);
   runApp(const MyApp());
 }
