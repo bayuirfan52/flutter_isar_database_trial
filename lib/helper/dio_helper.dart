@@ -14,4 +14,10 @@ mixin DioHelper {
     final data = List<Object>.from(response.data.map((e) => Object.fromJson(e)).toList());
     return data;
   }
+
+  static Future<Object?> getObjectById(String id) async {
+    final response = await _dio.get('objects/$id');
+    final data = Object.fromJson(response.data);
+    return data;
+  }
 }

@@ -1,7 +1,11 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:isardb_trial/main.dart';
 import 'package:isardb_trial/repository/repository.dart';
 import 'package:isardb_trial/model/object_model.dart';
+import 'package:isardb_trial/routes/app_route.dart';
 
+@RoutePage()
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
@@ -67,37 +71,40 @@ class _MainPageState extends State<MainPage> {
                   return Card(
                     elevation: 0,
                     color: Colors.blue.shade400,
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const CircleAvatar(
-                            foregroundImage: NetworkImage('https://pbs.twimg.com/profile_images/1272593825223995397/RwW_1GMN_400x400.jpg'),
-                            radius: 36,
-                          ),
-                          const SizedBox(width: 16),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${item.name}',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
+                    child: InkWell(
+                      onTap: () => getIt.get<AppRouter>().push(DetailRoute(id: item.id ?? '')),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const CircleAvatar(
+                              foregroundImage: NetworkImage('https://pbs.twimg.com/profile_images/1272593825223995397/RwW_1GMN_400x400.jpg'),
+                              radius: 36,
+                            ),
+                            const SizedBox(width: 16),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${item.name}',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                item.data?.price ?? '',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 11,
+                                Text(
+                                  item.data?.price ?? '',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 11,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
